@@ -1,7 +1,6 @@
 import json
 import bs4
 import re
-import functools
 import requests
 
 cache = {}
@@ -33,7 +32,7 @@ def get_leaders():
     for country in countries:
         req = requests.get(leaders_url, cookies = cookies, params = {"country" : country})
         
-        if(req.status_code != 200):
+        if(req.status_code == 403):
             req_cookies = requests.get(cookie_url)
             cookies = req_cookies.cookies
             req = requests.get(leaders_url, cookies = cookies, params = {"country" : country})
@@ -61,7 +60,11 @@ def get_first_paragraph(wikipedia_url, session):
 
     for paragraph in soup.find_all('p'):
         if paragraph.find('b'):
-            return re.sub(r"\[.\]", "", paragraph.text)
+            regexes = r"/\/.+\//m|/\\n/m|/\[.+\]/m"
+            print(regexes)
+            paragraph_after_regex = re.sub(r"/\/.+\//m|/\\n/m|/\[.+\]/m", "", paragraph.text)
+            print(paragraph_after_regex)
+            return paragraph_after_regex
 
 def save():
     filename = "leaders.json"
@@ -72,4 +75,4 @@ def save():
 
 leaders_per_country = get_leaders()
 #save()
-print(leaders_per_country)
+print(leaders_per_country())
