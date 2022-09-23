@@ -7,4 +7,4 @@ From the data gathered the program extracts wikipedia links to each world leader
 The wikipedia pages are then scraped for the first paragraph. Excess characters are removed using regular expression.
 This paragraph is added to our leader dictionaries. Errors and slow process are resolved by using session and requesting cookies in case of status error.
 
-In the end a function that saves the output to a new text file.
+In the end a function that saves the output to a new json file.
